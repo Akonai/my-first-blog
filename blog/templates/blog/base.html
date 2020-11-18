@@ -1,26 +1,203 @@
-{% load static %}
+{% load bootstrap4 %}
 <html>
     <head>
         <title>Django Girls blog</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+        {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+        <style>
+        .blog-header {
+  line-height: 1;
+  border-bottom: 1px solid #F1BDBD;
+}
+
+.blog-header-logo {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: 2.25rem;
+  color:pink;
+}
+
+.blog-header-logo:hover {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+.display-4 {
+  font-size: 2.5rem;
+}
+@media (min-width: 768px) {
+  .display-4 {
+    font-size: 3rem;
+    color: #F1BDBD;
+  }
+}
+
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  overflow-y: hidden;
+  color: #F1BDBD;
+}
+
+.nav-scroller .nav {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
+  margin-top: -1px;
+  overflow-x: auto;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-scroller .nav-link {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: .875rem;
+  color: #F1BDBD;
+}
+
+.card-img-right {
+  height: 100%;
+  border-radius: 0 3px 3px 0;
+  color: #F1BDBD;
+}
+
+.flex-auto {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+     color: #F1BDBD;
+}
+
+.h-250 { height: 250px; }
+@media (min-width: 768px) {
+  .h-md-250 { height: 250px; }
+     color: #F1BDBD;
+}
+
+/* Pagination */
+.blog-pagination {
+  margin-bottom: 4rem;
+     color: #F1BDBD;
+}
+.blog-pagination > .btn {
+  border-radius: 2rem;
+}
+
+/*
+ * Blog posts
+ */
+.blog-post {
+  margin-bottom: 4rem;
+     color: #F1BDBD;
+}
+.blog-post-title {
+  margin-bottom: .25rem;
+  font-size: 2.5rem;
+     color: #F1BDBD;
+}
+.blog-post-meta {
+  margin-bottom: 1.25rem;
+  color: #F1BDBD;
+}
+
+/*
+ * Footer
+ */
+.blog-footer {
+  padding: 2.5rem 0;
+  color: #F1BDBD;
+  text-align: center;
+  background-color: ;
+  border-top: .05rem solid #F1BDBD;
+}
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}
+
+img {
+float: right;
+
+}
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+       background: url("/static/css/aika1.jpg") no-repeat center top/cover;
+    width: 180px;
+    height: 130px;
+    margin-left: 30px;
+
+    </style>
     </head>
+
     <body>
-        <div class="page-header">
-{% if user.is_authenticated %}
-    <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-{% endif %}
-            <h1><a href="/">Django Girls Blog</a></h1>
-        </div>
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                    {% block content %}
+    <div class="container">
+
+  <header class="blog-header py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4 pt-1">
+          {% if user.is_authenticated %}
+            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+            <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-secondary" >Logout</a>
+        <a class="text-muted" href="#">About us</a>
+      </div>
+      <div class="col-4 text-center">
+        <a class="blog-header-logo text-dark" href="#" style="color:pink;">chocolaterie</a>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <a class="text-muted" href="#" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
+        </a>
+          {% else %}
+            <a href="{% url 'login' %}"  class="btn btn-sm btn-outline-secondary" >Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  <div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+      <a class="p-2 text-muted" href="/">Main</a>
+      <a class="p-2 text-muted" href="#">Sale</a>
+      <a class="p-2 text-muted" href="#">Contacs</a>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'post_new' %}" class="p-2 text-muted"style="color:#F1BDBD;" >Add post</a>
+        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+    {% endif %}
+    </nav>
+  </div>
+         {% block page_header %}
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+    <div class="col-md-6 px-0">
+      <h1 class="display-4 font-italic">chocolaterie дарит людям радость</h1>
+      <p class="lead my-3 style" "color:#F1BDBD;"> Мы предлагаем не просто свежую выпечку, великолепные торты, нежнейшие десерты и изысканные пирожные, а кондитерские изделия, приготовленные с большой любовью и заботой. Мы заботимся о безопасности наших клиентов и используем только натуральные, экологически-чистые ингредиенты. </p>
+      <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
+    </div>
+  </div>
+         {% endblock page_header %}
+       <div class="row mb-2">
+           {% block content %}
+
                     {% endblock %}
-                </div>
-            </div>
-        </div>
+           </div>
+    </div>
     </body>
 </html>
